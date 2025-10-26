@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="row g-0">
+        <!-- Sidebar -->
+        <div class="col-md-3 sidebar">
+            <div class="sidebar-header">
+                <h4><i class="fas fa-paw me-2"></i>Pila Pets</h4>
+                <p class="mb-0">Municipality of Pila, Laguna</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="{{ url_for('admin_dashboard') }}" class="nav-link">
+                    <i class="fas fa-chart-bar me-2"></i>Dashboard
+                </a>
+                <a href="{{ url_for('admin_pets') }}" class="nav-link active">
+                    <i class="fas fa-paw me-2"></i>All Pets
+                </a>
+                <a href="{{ url_for('logout') }}" class="nav-link">
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <div class="main-content">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h3>All Registered Pets</h3>
+                        <p class="text-muted mb-0">Manage all pet registrations in the system</p>
+                    </div>
+                    <div class="text-end">
+                        <h6 class="mb-0">{{ session.user_name }}</h6>
+                        <span class="badge bg-danger">Administrator</span>
+                    </div>
+                </div>
+
+                <!-- Pets Table -->
+                <div class="card">
+                    <div class="card-body">
+                        {% if pets %}
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Pet Name</th>
+                                            <th>Category</th>
+                                            <th>Type</th>
+                                            <th>Age</th>
+                                            <th>Gender</th>
+                                            <th>Color</th>
+                                            <th>Owner</th>
+                                            <th>Contact</th>
+                                            <th>Address</th>
+                                            <th>Registered</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for pet in pets %}
+                                        <tr>
+                                            <td>{{ pet.id }}</td>
+                                            <td><strong>{{ pet.name }}</strong></td>
+                                            <td><span class="badge bg-primary">{{ pet.category }}</span></td>
+                                            <td>{{ pet.pet_type or 'N/A' }}</td>
+                                            <td>{{ pet.age }} years</td>
+                                            <td>{{ pet.gender or 'N/A' }}</td>
+                                            <td>{{ pet.color or 'N/A' }}</td>
+                                            <td>{{ pet.owner_name }}</td>
+                                            <td>{{ pet.owner_contact }}</td>
+                                            <td>{{ pet.owner_address }}</td>
+                                            <td>{{ pet.registered_on.strftime('%m/%d/%Y') }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="text-center py-5">
+                                <i class="fas fa-paw fa-4x text-muted mb-3"></i>
+                                <h5>No Pets Registered</h5>
+                                <p class="text-muted">There are no pets registered in the system yet.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

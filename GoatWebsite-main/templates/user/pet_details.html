@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="row g-0">
+        <!-- Sidebar -->
+        <div class="col-md-3 sidebar">
+            <div class="sidebar-header">
+                <h4><i class="fas fa-paw me-2"></i>Pila Pets</h4>
+                <p class="mb-0">Municipality of Pila, Laguna</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="{{ url_for('user_dashboard') }}" class="nav-link">
+                    <i class="fas fa-home me-2"></i>Dashboard
+                </a>
+                <a href="{{ url_for('my_pets') }}" class="nav-link">
+                    <i class="fas fa-paw me-2"></i>My Pets
+                </a>
+                <a href="{{ url_for('logout') }}" class="nav-link">
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <div class="main-content">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3>Pet Details</h3>
+                    <a href="{{ url_for('my_pets') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Back to My Pets
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Pet Information -->
+                            <div class="col-md-8">
+                                <h4 class="text-primary">{{ pet.name }}</h4>
+                                
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        <h6><i class="fas fa-info-circle me-2"></i>Pet Information</h6>
+                                        <table class="table table-borderless">
+                                            <tr>
+                                                <td><strong>Category:</strong></td>
+                                                <td>{{ pet.category }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Type:</strong></td>
+                                                <td>{{ pet.pet_type or 'Not specified' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Gender:</strong></td>
+                                                <td>{{ pet.gender or 'Not specified' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Color:</strong></td>
+                                                <td>{{ pet.color or 'Not specified' }}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6><i class="fas fa-calendar me-2"></i>Registration Details</h6>
+                                        <table class="table table-borderless">
+                                            <tr>
+                                                <td><strong>Age:</strong></td>
+                                                <td>{{ pet.age }} year(s)</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Registered On:</strong></td>
+                                                <td>{{ pet.registered_on.strftime('%m/%d/%Y') }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Status:</strong></td>
+                                                <td><span class="badge bg-success">Registered</span></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Owner Information -->
+                                <div class="mt-4">
+                                    <h6><i class="fas fa-user me-2"></i>Owner Information</h6>
+                                    <div class="user-info">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Name:</strong> {{ owner.full_name }}</p>
+                                                <p><strong>Email:</strong> {{ owner.email }}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {% if owner.contact_number %}
+                                                <p><strong>Contact Number:</strong> {{ owner.contact_number }}</p>
+                                                {% endif %}
+                                                {% if owner.address %}
+                                                <p><strong>Address:</strong> {{ owner.address }}</p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6 class="mb-0"><i class="fas fa-bolt me-2"></i>Quick Actions</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-grid gap-2">
+                                            <a href="{{ url_for('vaccination_records', pet_id=pet.id) }}" class="btn btn-outline-primary">
+                                                <i class="fas fa-syringe me-2"></i>Vaccination Records
+                                            </a>
+                                            <button class="btn btn-outline-success">
+                                                <i class="fas fa-print me-2"></i>Print Certificate
+                                            </button>
+                                            <button class="btn btn-outline-info">
+                                                <i class="fas fa-download me-2"></i>Export Details
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
